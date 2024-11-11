@@ -3,12 +3,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .models import Perfil
-from .serializers import PerfilSerializer
+from .Serializers import ProfileSerializer
 
 
 class PerfilViewSet(viewsets.ModelViewSet):
     queryset = Perfil.objects.all()
-    serializer_class = PerfilSerializer
+    serializer_class = ProfileSerializer
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
 
     def create(self, request, *args, **kwargs):
@@ -17,7 +17,7 @@ class PerfilViewSet(viewsets.ModelViewSet):
             return Response({"detail": "usuario_id es requerido"}, status=status.HTTP_400_BAD_REQUEST)
 
         perfil, created = Perfil.objects.get_or_create(usuario_id=usuario_id)
-        serializer = PerfilSerializer(perfil, data=request.data, partial=True)
+        serializer = ProfileSerializer(perfil, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()

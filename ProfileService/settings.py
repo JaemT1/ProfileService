@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
-import perfiles
-from perfiles import apps
-from perfiles.apps import PerfilesConfig
+import profiles
+from profiles import apps
+from profiles.apps import ProfilesConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'perfiles',
+    'profiles',
 ]
 
 MIDDLEWARE = [
