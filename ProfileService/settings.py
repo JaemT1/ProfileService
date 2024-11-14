@@ -43,7 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'profiles',
+    'health_check',
+    'health_check.db',
+    'drf_spectacular',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,22 +80,37 @@ TEMPLATES = [
     },
 ]
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Perfil Service API',
+    'DESCRIPTION': 'API para la gestión de perfiles',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
 WSGI_APPLICATION = 'ProfileService.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profiles_db',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRES_DB', 'db_profiles'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'ROOT'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # En docker-compose esto puede ser 'db' o el nombre del servicio de la base de datos
+        'PORT': os.getenv('DB_PORT', '5435'),
     }
 }
+
+RABBITMQ_HOST = 'localhost'  # o el host de RabbitMQ en Docker
+RABBITMQ_PORT = 5672
+RABBITMQ_USER = 'guest'
+RABBITMQ_PASSWORD = 'guest'
+RABBITMQ_QUEUE = 'profileQueue'  # Nombre de la cola que el servicio escucha
 
 
 # Password validation
