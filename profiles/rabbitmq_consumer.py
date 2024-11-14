@@ -8,15 +8,15 @@ from .models import Perfil
 def process_message(ch, method, properties, body):
     # Decodificar el mensaje recibido
     message = json.loads(body)
-    event_type = message.get('event_type')
-    id_usuario = message.get('id_usuario')
+    opcion = message.get('opcion')
+    id_usuario = message.get('id')
 
     # Procesar el mensaje de acuerdo al tipo de evento
-    if event_type == 'user_created':
+    if opcion == 'signup':
         # Crear un nuevo perfil cuando se crea un usuario
         Perfil.objects.create(id=id_usuario)
         print(f'Perfil creado para el usuario con ID {id_usuario}')
-    elif event_type == 'user_deleted':
+    elif opcion == 'delete':
         # Eliminar el perfil cuando se elimina un usuario
         Perfil.objects.filter(id=id_usuario).delete()
         print(f'Perfil eliminado para el usuario con ID {id_usuario}')
